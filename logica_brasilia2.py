@@ -11,7 +11,11 @@ def limpar_tela():
 def barra(nome, valor):
     cheios = int(valor / 5)
     vazios = 20 - cheios
-    return f"{nome:<14}: [" + "#" * cheios + "·" * vazios + f"] {valor}"
+    if software:
+        return f"{nome:<14}: [" + "#" * cheios + "·" * vazios + f"] {valor}"
+    else:
+        return f"{nome:<14}: [" + "#" * cheios + "·" * vazios + f"] "
+
 
 #função que introduz a interface do jogo
 def mostrar_interface(pop, eco, meio, tec):
@@ -64,6 +68,42 @@ def minEco():
     print('Game Over')
 
 #cria todos os eventos do jogo
+
+
+#verifica se algum dos indices chegou a 0 ou 100 (game over)
+def checar_game_over(pop, eco, meio, tec):
+    if pop <= 0:
+        minPop()
+        sys.exit()
+
+    if pop >= 100:
+        maxPop()
+        sys.exit()
+
+    if eco <= 0:
+        minEco()
+        sys.exit()
+
+    if eco >= 100:
+        maxEco()
+        sys.exit()
+
+    if meio <= 00:
+        minMeio()
+        sys.exit()
+
+    if meio >= 100:
+        maxMeio()
+        sys.exit()
+
+    if tec <= 0:
+        minTec()
+        sys.exit()
+
+    if tec >= 100:
+        maxTec()
+        sys.exit()
+
 def evento1(stats):
     pop, eco, meio, tec = stats
 
@@ -334,6 +374,7 @@ def evento6(stats):
     if decisao6 == 's':
         tec += 20
         eco -= 10
+        eventos.append(evento5)
     elif decisao6 == 'n':
         eco += 10
         tec -= 10
@@ -591,10 +632,54 @@ def evento10(stats):
     if decisao10 == 's':
         eco -= 25
         tec += 20
+        eventos.append(evento10A)
+        eventos.append(evento10B)
     elif decisao10 == 'n':
         tec -= 10
         eco += 10
+        eventos.append(evento15)
         
+    return pop, eco, meio, tec
+
+def evento10A(stats):
+    pop, eco, meio, tec = stats
+
+    input(
+        "LAZULE'S TECH.\n"
+        'Olá governador, você decidiu apoiar nosso projeto, queremos mostrar como a tecnologia pode solucionar todos os nossos problemas.\n'
+        'Use nosso software para calcular melhor suas decisões\n'
+        '\nOS INDICADORES AGORA SERÃO NUMERADOS'
+        '\nAperte Enter para continuar'
+          )
+
+    global software   
+    software = True
+    eventos.remove(evento10A)
+    return pop, eco, meio, tec
+
+def evento10B(stats):
+    pop, eco, meio, tec = stats
+
+    print(
+        "LAZULE'S TECH.\n"
+        'Olá governador, você decidiu apoiar nosso projeto, queremos mostrar como a tecnologia pode solucionar todos os nossos problemas.\n'
+        'Nosso software detectou uma crise hídrica iminente, podemos resolver o problema antes que ele aconteça.\n'
+          )
+    
+    decisao10B = input('\nDigite "s" ou "n": ').lower()
+    eventos.remove(evento10B)
+    while decisao10 not in 'sn':
+        print('Entrada inválida, tente outra vez\n')
+        decisao10 = input('Digite s ou n:').lower()
+
+    if decisao10B == 's':
+        eco -= 15
+
+    elif decisao10B == 'n':
+        eco += 15
+        eventos.append(evento15)
+    
+
     return pop, eco, meio, tec
 
 def evento11(stats):
@@ -604,7 +689,7 @@ def evento11(stats):
         'SECA.\n'
         'Uma grande seca assola Brasília, as queimadas irão aumentar .\n'
         'Efeitos:\n'
-        '(Por rodada) Meio-Ambiente - '
+        '(Por rodada) Meio-Ambiente -\n '
         'Aperte Enter para continuar'
           )
     global seca
@@ -670,7 +755,6 @@ def evento13(stats):
         eco += 20
         pop -= 15
         eventos.append(evento13A)
-        eventos.remove(evento13)
     elif decisao13 == 'n':
         pop += 20
         eco -= 15
@@ -746,7 +830,7 @@ def evento15(stats):
         'CRISE HÍDRICA.\n'
         'O reservatório da Barragem do Rio Descoberto atinge nível historicamente baixo! Teremos que fazer racionamento.\n'
         'Efeitos:\n'
-        'População - 10 (por rodada)'
+        '(Por rodada) População -\n'
         'Aperte Enter para continuar'
           )
     global crise_hidro
@@ -805,6 +889,7 @@ def evento17(stats):
         'População - \n'
           )
           
+    
     decisao17 = input('\nDigite "s" ou "n": ').lower()
     eventos.remove(evento17)
     while decisao17 not in 'sn':
@@ -893,82 +978,13 @@ def evento19(stats):
         
     return pop, eco, meio, tec
 
-def evento20(stats):
-    pop, eco, meio, tec = stats
-
-    print(
-        '....\n'
-        '\n'
-        'Efeitos: (sim)\n'
-        'Economia \n'
-        'Tecnologia \n'
-        'População \n'
-
-        'Efeitos: (nao)\n'
-        'Economia \n'
-        'Tecnologia \n'
-        'População \n'
-          )
-          
-    decisao20 = input('\nDigite "s" ou "n": ').lower()
-    eventos.remove(evento20)
-    while decisao20 not in 'sn':
-        print('Entrada inválida, tente outra vez\n')
-        decisao20 = input('Digite s ou n:').lower()
-    
-
-    if decisao20 == 's':
-        eco -= 30
-        tec += 20
-        pop -= 10
-    elif decisao20 == 'n':
-        tec -= 10
-        eco += 20
-        pop -= 10
-        
-    return pop, eco, meio, tec
-
 #lista de todos os eventos possiveis
 eventos = [
-    evento1, evento2, evento3, evento4, evento5,
+    evento1, evento2, evento3, evento4,
     evento6, evento7, evento8, evento9, evento10,
-    evento11, evento12, evento13, evento14, evento15,
+    evento11, evento12, evento13, evento14,
     evento16, evento17, evento18, evento19
     ]
-
-#verifica se algum dos indices chegou a 0 ou 100 (game over)
-def checar_game_over(pop, eco, meio, tec):
-    if pop <= 0:
-        minPop()
-        sys.exit()
-
-    if pop >= 100:
-        maxPop()
-        sys.exit()
-
-    if eco <= 0:
-        minEco()
-        sys.exit()
-
-    if eco >= 100:
-        maxEco()
-        sys.exit()
-
-    if meio <= 00:
-        minMeio()
-        sys.exit()
-
-    if meio >= 100:
-        maxMeio()
-        sys.exit()
-
-    if tec <= 0:
-        minTec()
-        sys.exit()
-
-    if tec >= 100:
-        maxTec()
-        sys.exit()
 
 #inicia a rodada
 def rodada():
@@ -982,6 +998,9 @@ def rodada():
     global crise_hidro
     tempo_hidro = 0
     crise_hidro = 0
+
+    global software
+    software = False
     
     while True:
         
@@ -1011,12 +1030,12 @@ def rodada():
         
         #temporizador dos eventos de longa duração
         if seca != 0:
-            meio -= 10
+            meio -= 5
             seca -= 1
             tempo_seca += 1
             
         if crise_hidro != 0:
-            pop -= 10
+            pop -= 5
             crise_hidro -= 1
             tempo_hidro += 1
         
