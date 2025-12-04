@@ -2,6 +2,74 @@
 import sys
 import random
 import os
+import time
+
+#tela inicial do jogo
+def tela_inicial():
+    limpar_tela()
+    print("=" * 40)
+    print(' ' * 12 + "BSB EM COLAPSO")
+    print("=" * 40)
+
+    print('''
+                        .|
+                       | |
+                       |'|            
+               ___    |  |           
+       _    .-'   '-. |  |     .--'| 
+    .-'|  _.|  |    ||   '-__  |   |  
+    |' | |.    |    ||       | |   | 
+ ___|  '-'     '    ''       '-'   '-
+        ''')
+    print("=" * 40)
+    print("1 - INICIAR JOGO")
+    print("2 - Créditos")
+    print("0 - Sair")
+    print("=" * 40)
+
+def Menu():
+    while True:
+        tela_inicial()
+        opc = input("Escolha uma opção: ").strip()
+
+        if opc == "1":
+            limpar_tela()
+            print("Iniciando novo jogo...")
+            time.sleep(1)
+            limpar_tela()
+            print("=" * 40 + "\n")
+            print(
+                "COMO JOGAR:\n" 
+                "\nVocê é o gestor de Brasília e precisa equilibrar as 4 forças que regem a sociedade:\n"
+                "[ P O P U L A Ç Ã O] (Nível de popularidade)"
+                "[ T E C N O L O G I A] (Nível de desenvolvimento tecnológico da cidade)\n"
+                ""
+                )
+            print("=" * 40 + "\n")
+
+            break
+        elif opc == "2":
+            limpar_tela()
+            print(
+                "TRABALHO FINAL DE APC\n"
+                "\nDesenvolvido por:\n"
+                "Pedro vítor de Mendonça Furtado\n"
+                "Gusthavo de Oliveira Silva\n"
+                "Marco Antônio lopes de Medeiros\n"
+                "Gabriel Peres de Oliveira\n"
+                )
+
+            input("\nPressione Enter para voltar...")
+        elif opc == "0":
+            print("Saindo...")
+            time.sleep(1)
+            sys.exit()
+            break
+        else:
+            print("Opção inválida.")
+            time.sleep(1)
+    
+    rodada()
 
 #limpa o terminal
 def limpar_tela():
@@ -23,7 +91,7 @@ def mostrar_interface(pop, eco, meio, tec):
 
     #printa a nova rodada
     print("=" * 50)
-    print("      B S B   E M   C O L A P S O")
+    print(" " * 15 + "I N D I C A D O R E S")
     print("=" * 50)
 
     #barra de status
@@ -36,35 +104,35 @@ def mostrar_interface(pop, eco, meio, tec):
 
 #mensagens de morte 
 def maxTec():
-    print('As BigTecs se enraizaram em Brasília e tomaram o controle da cidade\n')
+    print('As BigTecs se enraizaram em Brasília. A única opção é se render aos interesses privados.\n')
     print('Game Over')
 
 def minTec():
-    print('Brasília é considerada a cidade mais mal desenvolvida do Brasil\n')
+    print('Brasília é considerada a cidade mais mal desenvolvida do Brasil.\n')
     print('Game Over')
     
 def maxPop():
-    print('Mano, sei la\n')
+    print('Você se tornou super popular, mas a fama também trás coisas ruins. Você foi assassinado enquanto discursava em público.\n')
     print('Game Over')
     
 def minPop():
-    print('A população está revoltada, as ruas estão lotadas e o povo pede por um novo gestor\n')
+    print('A população está revoltada, as ruas estão lotadas e o povo pede por um novo gestor.\n')
     print('Game Over')
     
 def maxMeio():
-    print('As capivaras tomaram o poder\n')
+    print('As capivaras tomaram o poder. Todos se recusam a machucar um animal tão fofinho, o que resta é se render.\n')
     print('Game Over')
     
 def minMeio():
-    print('Brasília está em chamas\n')
+    print('Brasília está em chamas.\n')
     print('Game Over')
     
 def maxEco():
-    print('alguma parada de corrupção ou sla\n')
+    print('Você está sendo investigado por corrupção. Sua populariade caiu e o povo pede por um novo gestor.\n')
     print('Game Over')
     
 def minEco():
-    print('Brasília é a cidade mais pobre do Brasil\n')
+    print('Brasília é a cidade mais pobre do Brasil. O povo pede por um novo gestor.\n')
     print('Game Over')
 
 #cria todos os eventos do jogo
@@ -104,6 +172,7 @@ def checar_game_over(pop, eco, meio, tec):
         maxTec()
         sys.exit()
 
+#lista de todos os eventos possiveis
 def evento1(stats):
     pop, eco, meio, tec = stats
 
@@ -668,7 +737,7 @@ def evento10B(stats):
     
     decisao10B = input('\nDigite "s" ou "n": ').lower()
     eventos.remove(evento10B)
-    while decisao10 not in 'sn':
+    while decisao10B not in 'sn':
         print('Entrada inválida, tente outra vez\n')
         decisao10 = input('Digite s ou n:').lower()
 
@@ -978,16 +1047,18 @@ def evento19(stats):
         
     return pop, eco, meio, tec
 
-#lista de todos os eventos possiveis
-eventos = [
+
+
+#inicia a rodada
+def rodada():
+    global eventos
+    eventos = [
     evento1, evento2, evento3, evento4,
     evento6, evento7, evento8, evento9, evento10,
     evento11, evento12, evento13, evento14,
     evento16, evento17, evento18, evento19
     ]
 
-#inicia a rodada
-def rodada():
     pop = eco = meio = tec = 50 #indices base para iniciar o jogo
     
     #eventos de longa duração
@@ -1020,9 +1091,10 @@ def rodada():
         checar_game_over(pop, eco, meio, tec)
         
         #checa se a lista de eventos está vazia antes de escolher um evento aleatório
-        if (eventos) == 0:
-            input('Parabéns você sobreviveu ao mandato!\nAperte Enter para encerrar.')
-            sys.exit()
+        if len(eventos) == 0:
+            input('Parabéns você sobreviveu ao mandato!\n'
+            '\nAperte Enter para voltar ao Menu...')
+            break
 
         else:
             evento_escolhido = random.choice(eventos)
@@ -1038,24 +1110,10 @@ def rodada():
             pop -= 5
             crise_hidro -= 1
             tempo_hidro += 1
+    
+    Menu()
+
         
 
 #introdução do jogo
-print('Você é o gestor de Brasília e precisa administrar a cidade\n')
-
-while True:
-    resposta = input('Aperte Enter para continuar no jogo! ')
-    if resposta == '':
-        break
-    print('Entrada inválida! Pressione apenas Enter para continuar.\n')
-
-print('\nSeu trabalho é equilibrar as 4 forças que regem a sociedade:\n Economia\n População\n Tecnologia\n Meio Ambiente\n')
-
-while True:
-    resposta = input('Aperte Enter para iniciar\n')
-    if resposta == '':
-        break
-    print('Entrada inválida! Pressione apenas Enter para iniciar.\n')
-
-#start
-rodada()
+Menu()
