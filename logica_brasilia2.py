@@ -3,6 +3,7 @@ import sys
 import random
 import os
 import time
+import colorama
 
 #tela inicial do jogo
 def tela_inicial():
@@ -37,20 +38,20 @@ def Menu():
             print("Iniciando novo jogo...")
             time.sleep(1)
             limpar_tela()
-            print("=" * 40 + "\n")
-            print(
-                "COMO JOGAR:\n" 
-                "\nVocê é o gestor de Brasília e precisa equilibrar as 4 forças que regem a sociedade:\n"
-                "[ P O P U L A Ç Ã O ] (Nível de popularidade)\n"
+            print("=" * 40)
+            print("       C O M O   J O G A R:" )
+            print("=" * 40)
+            print("Você é o gestor de Brasília e precisa equilibrar as 4 forças que regem a sociedade:\n"
+                "\n[ P O P U L A Ç Ã O ] (Nível de popularidade e satisfação do povo com a gestão)\n"
                 "[ E C O N O M I A ] (Quantidade de dinheiro nos cofres públicos)\n"
                 "[ T E C N O L O G I A ] (Nível de desenvolvimento tecnológico da cidade)\n"
-                "[ M E I O - A M B I E N T E ] (Qualidade do meio)\n"
-                "Seu trabalho é garantir que nenhum dos 4 indicadores chegue ao máximo ou ao mínimo"
-                "Digite 's' (sim) para aprovar"
+                "[ M E I O - A M B I E N T E ] (Qualidade do meio-ambiente)\n"
+                "\nSeu trabalho é garantir que nenhum dos 4 indicadores chegue ao máximo ou ao mínimo, mantendo a barra do indicador sempre entre 1% e 99%"
                 )
             print("=" * 40 + "\n")
-
+            input("\nPressione Enter para continuar...")
             break
+
         elif opc == "2":
             limpar_tela()
             print(
@@ -64,6 +65,7 @@ def Menu():
 
             input("\nPressione Enter para voltar...")
         elif opc == "0":
+            limpar_tela()
             print("Saindo...")
             time.sleep(1)
             sys.exit()
@@ -109,42 +111,50 @@ def mostrar_interface(pop, eco, meio, tec):
 def maxTec():
     print('As BigTecs se enraizaram em Brasília. A única opção é se render aos interesses privados.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
 
 def minTec():
     print('Brasília é considerada a cidade mais mal desenvolvida do Brasil.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
     
 def maxPop():
     print('Você se tornou super popular, mas a fama também trás coisas ruins. Você foi assassinado enquanto discursava em público.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
     
 def minPop():
     print('A população está revoltada, as ruas estão lotadas e o povo pede por um novo gestor.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
     
 def maxMeio():
     print('As capivaras tomaram o poder. Todos se recusam a machucar um animal tão fofinho, o que resta é se render.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
     
 def minMeio():
     print('Brasília está em chamas.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
     
 def maxEco():
     print('Você está sendo investigado por corrupção. Sua populariade caiu e o povo pede por um novo gestor.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
 
     
 def minEco():
     print('Brasília é a cidade mais pobre do Brasil. O povo pede por um novo gestor.\n')
     print('\nGAME OVER\n')
+    time.sleep(1)
     input("\nPressione Enter para voltar ao Menu...")
 
 #cria todos os eventos do jogo
@@ -192,12 +202,12 @@ def evento1(stats):
     print(
         'IMPLANTAR WI-FI PÚBLICO EM ÁREAS DE BAIXA RENDA\n'
         'A secretaria de tecnologia propõe instalar Wi-Fi gratuito em regiões carentes.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
         'População + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
         'Tecnologia - \n'
           )
@@ -231,12 +241,12 @@ def evento2(stats):
     print(
         'IMPLEMENTAR UM SISTEMA DE SEGURANÇA COM IA INTEGRADA\n'
         'A secretaria de segurança pública propôe integrar a IA nos sistemas de câmera de segurança para fazer reconhecimento facial.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
         'População + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
         'Tecnologia - \n'
           )
@@ -264,12 +274,12 @@ def evento3(stats):
     print(
         'SUBSTITUIR A FROTA DE ÔNIBUS\n'
         'A secretaria de transporte propõe a substituição de toda a frota de ônibus por ônibus elétricos.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
         'Meio-Ambiente + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Meio-Ambiente - \n'
         'Tecnologia -\n'
           )
@@ -297,11 +307,11 @@ def evento4(stats):
     print(
         'ACEITAR CRIPTOMOEDAS COMO FORMA DE PAGAMENTO DE IMPOSTOS\n'
         'Empresas de tecnologia sugerem aceitar criptomoedas no pagamento de taxas públicas.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia - \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia - \n'
           )
           
@@ -326,12 +336,12 @@ def evento5(stats):
     print(
         'CONSTRUIR UM SUPER COMPUTADOR.\n'
         'A OPENAI deseja construir um super computador em Brasília.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia + \n'
         'Meio-Ambiente - \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia - \n'
         'Tecnologia - \n'
         'Meio-Ambiente + \n'
@@ -362,12 +372,12 @@ def evento5A(stats):
     print(
         'SUPER AQUECIMENTO.\n'
         'Devido à uma má gestão e o clima de Brasília o super computador da OPEN AI começou a apresentar problemas de super aquecimento. O secretário do meio-ambiente sugere retirar a instalação antes que cause maiores problemas.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia - \n'
         'Meio-Ambiente + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia + \n'
         'Tecnologia + \n'
         'Meio-Ambiente - \n'
@@ -399,12 +409,12 @@ def evento5B(stats):
     print(
         'SUPER COMPUTADOR EM CHAMAS.\n'
         'Um incêndio se inicia nas instalações da OPEN AI, ameaçando bairros próximos. deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia - \n'
         'Meio-Ambiente + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia + \n'
         'Tecnologia + \n'
         'Meio-Ambiente - \n'
@@ -436,11 +446,11 @@ def evento6(stats):
     print(
         'REDUÇÃO DE IMPOSTOS.\n'
         'Empresários sugerem reduzir impostos para estimular novos investimentos.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia + \n'
         'Tecnologia - \n'
           )
@@ -468,10 +478,10 @@ def evento7(stats):
     print(
         'VAZAMENTO DE DADOS.\n'
         'Um vazamento de dados expos dados de servidores públicos. Deseja investigar?\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Nenhum\n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
           )
           
@@ -496,11 +506,11 @@ def evento7A(stats):
     print(
         'INVESTIGAÇÃO DO VAZAMENTO DE DADOS.\n'
         'Os hackers culpados foram encontrados e presos. Deseja implementar um sistema de segurança melhor?\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Nenhum\n'
           )
           
@@ -526,10 +536,10 @@ def evento7B(stats):
     print(
         'GRUPO HACKER REINVINDICA AUTORIA.\n'
         'Os hackers responsaveis pelo vazamento de dados exigem mais transparência do governo. Deseja dialogar com eles? \n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Nenhum\n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Nenhum\n'
           )
           
@@ -554,10 +564,10 @@ def evento7C(stats):
     print(
         'HACKERS PROPÕEM ACORDO DE PAZ.\n'
         'O grupo hacker propõe cessar os ataques e ajudar em melhorias de segurança caso o governo aceite ter uma maior transpaência com as contas públicas. aceitar acordo?\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Tecnolgia - \n'
           )
           
@@ -598,11 +608,11 @@ def evento8(stats):
     print(
         'CORTES NO ORÇAMENTO.\n'
         'A equipe de finanças sugere cortar parte do orçamento da saúde para cobrir dívidas.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'População - \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População + \n'
         'Economia - \n'
           )
@@ -629,11 +639,11 @@ def evento8A(stats):
     print(
         'MANIFESTANTES LOTAM AS RUAS.\n'
         'Após decisão de cortes de verba da saúde, manifestantes vão às ruas pedindo para revogar a decisão.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
         'Economia + \n'
           )
@@ -660,12 +670,12 @@ def evento9(stats):
     print(
         'CRIAR UM POLO INDUSTRIAL NO GAMA.\n'
         'Indústrias querem se instalar no Gama com incentivos especiais.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia + \n'
         'Meio-Ambiente - \n'
         
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Tecnologia - \n'
         'Meio-Ambiente + \n'
           )
@@ -694,11 +704,11 @@ def evento10(stats):
     print(
         'APOIO A STARTUP DE TECNOLOGIA.\n'
         'Uma pequena empresa pede por incentivo do governo para desenvolver soluções para Brasília, você deseja apoiar?.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Tecnologia - \n'
         'Economia + \n'
           )
@@ -771,7 +781,7 @@ def evento11(stats):
         'Uma grande seca assola Brasília, as queimadas irão aumentar .\n'
         'Efeitos:\n'
         '(Por rodada) Meio-Ambiente -\n '
-        'Aperte Enter para continuar'
+        '\nAperte Enter para continuar'
           )
     global seca
     seca += 4
@@ -785,11 +795,11 @@ def evento12(stats):
     print(
         'TARIFA SOCIAL DE ENERGIA.\n'
         'Os moradores pedem por descontos na conta de energia para famílias de baixa renda.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
         'Economia + \n'
           )
@@ -816,11 +826,11 @@ def evento13(stats):
     print(
         'AUMENTO DA TARIFA DE ÔNIBUS.\n'
         'A equipe de finanças sugere aumentar a tarifa do transporte público.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'População - \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População + \n'
         'Economia - \n'
           )
@@ -848,11 +858,11 @@ def evento13A(stats):
     print(
         'MANIFESTAÇÃO CONTRA O AUMENTO DA TARIFA DE ÔNIBUS.\n'
         'Manifestantes pressionam para revogar o aumento da tarifa.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'População - \n'
         'Economia + \n'
           )
@@ -879,11 +889,11 @@ def evento14(stats):
     print(
         'INSTALAÇÃO DE ENERGIA SOLAR.\n'
         'Uma empresa europeia oferece instalar uma usina de energia solar no DF com investimento misto público/privado.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Meio-Ambiente - \n'
         'Economia + \n'
           )
@@ -912,7 +922,7 @@ def evento15(stats):
         'O reservatório da Barragem do Rio Descoberto atinge nível historicamente baixo! Teremos que fazer racionamento.\n'
         'Efeitos:\n'
         '(Por rodada) População -\n'
-        'Aperte Enter para continuar'
+        '\nAperte Enter para continuar'
           )
     global crise_hidro
     crise_hidro += 3
@@ -926,12 +936,12 @@ def evento16(stats):
     print(
         'PROJETO BRASÍLIA VERDE.\n'
         'Após meses de políticas ambientais, você recebe uma proposta da UnB para reflorestar áreas degradadas do DF com participação comunitária.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Meio-Ambiente - \n'
         'Economia +\n'
           )
@@ -959,12 +969,12 @@ def evento17(stats):
     print(
         'INCÊNDIO NO PARQUE NACIONAL.\n'
         'Um incêndio toma conta do Parque Nacional de Brasília, ameaçando áreas protegidas e bairros próximos. deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Meio-Ambiente - \n'
         'Economia + \n'
         'População - \n'
@@ -995,12 +1005,12 @@ def evento18(stats):
     print(
         'DRONES DE ENTREGA.\n'
         'A Amazon quer instalar um sistema de entrega mais veloz utilizando drones.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Meio-Ambiente - \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Meio-Ambiente + \n'
         'Economia - \n'
         'População - \n'
@@ -1030,12 +1040,12 @@ def evento19(stats):
     print(
         'MODERNIZAÇÃO DO ENSINO.\n'
         'A secretaria de educação propõe implementar computadores em todas as escolas da rede pública.\n'
-        'Efeitos: (sim)\n'
+        '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia + \n'
         'População + \n'
 
-        'Efeitos: (nao)\n'
+        '\nEfeitos: (não)\n'
         'Economia + \n'
         'Tecnologia - \n'
         'População - \n'
@@ -1089,11 +1099,55 @@ def rodada():
         
         #checa se os eventos de longa duração terminaram
         if tempo_seca == 4:
-            input('\nChuva! A seca finalmente acabou!')
+            limpar_tela()
+            mostrar_interface(pop,eco,meio,tec)
+            print('Chuva! A seca finalmente acabou!')
+            print('\nAperte Enter para continuar...')
+            print(
+                '''
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⣄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⣠⣾⣿⣿⣶⣄⠀⣸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣷⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⣀⣀⡀⠀⠀⠀
+⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠀
+⠀⢠⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⠀
+⠀⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠇⠀
+⠀⠈⠿⣿⣿⡿⠋⠈⠻⣿⣿⣿⣿⡿⠟⠁⠀⠙⠿⠿⠛⠁⠙⠻⠿⠿⠟⠁⠀⠀
+⠀⠀⠀⠀⣠⡀⠀⠀⢦⡄⠉⠉⣁⠀⠀⠀⠀⠀⠀⠰⡆⠀⠀⢰⣆⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠸⠇⠀⠀⠈⠀⠀⠀⠛⠀⠀⠀⢹⡇⠀⠀⠀⠀⠀⠀⠛⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⡀⠀⠀⢰⡄⠀⠀⣀⠀⠀⠈⠛⠀⠀⢰⣧⠀⠀⠀⣀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠸⣷⠀⠀⠈⠉⠀⠀⢻⡇⠀⠀⠀⡀⠀⠀⠉⠀⠀⠀⢻⡄⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠛⠂⠀⠀⢠⡄⠀⠈⠟⠀⠀⠀⢿⠀⠀⠀⣤⠀⠀⠈⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⣠⡀⠀⠀⠃⠀⠀⠀⣀⠀⠀⠘⠃⠀⠀⠉⠀⠀⠀⢰⡄⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠘⠃⠀⠀⠀⠀⠀⠀⠛⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠓⠀⠀
+'''
+            )
+            input()
             tempo_seca -=4
             
         if tempo_hidro == 3:
-            input('\nO reservatório está cheio novamente! Acabou o racionamento de água!')
+            limpar_tela()
+            mostrar_interface(pop,eco,meio,tec) 
+            print('\nO reservatório está cheio novamente! Acabou o racionamento de água!')
+            print('\nAperte Enter para continuar...')
+            print('''
+                       ___
+                     .' _ '.
+                    / /` `\ \
+                    | |   [__]
+                    | |    {{
+                    | |    }}
+                 _  | |  _ {{
+     ___________<_>_| |_<_>}}________
+         .=======^=(___)=^={{====.
+        / .----------------}}---. \
+       / /                 {{    \ \
+      / /                  }}     \ \
+     (  '========================='  )
+      '-----------------------------'
+                ''' )
+            input()
+
             tempo_hidro -=3
             
         #mostra a interface do jogo com as barras de indicadores
