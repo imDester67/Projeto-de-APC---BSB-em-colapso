@@ -3,16 +3,32 @@ import sys
 import random
 import os
 import time
-import colorama
+from colorama import Fore, init
+
+
+def print_event(block):
+    try:
+        init()
+    except Exception:
+        pass
+    for raw in block.splitlines():
+        line = raw.rstrip()
+        if line.strip().endswith('+'):
+            print(Fore.GREEN + line + Fore.WHITE)
+        elif line.strip().endswith('-'):
+            print(Fore.RED + line + Fore.WHITE)
+        else:
+            print(line)
+
 
 #tela inicial do jogo
 def tela_inicial():
     limpar_tela()
     print("=" * 40)
-    print(' ' * 12 + "BSB EM COLAPSO")
+    print(' ' * 12 + Fore.YELLOW +"BSB EM COLAPSO" + Fore.WHITE)
     print("=" * 40)
 
-    print('''
+    print(Fore.BLACK+ ''' 
                         .|
                        | |
                        |'|            
@@ -21,7 +37,7 @@ def tela_inicial():
     .-'|  _.|  |    ||   '-__  |   |  
     |' | |.    |    ||       | |   | 
  ___|  '-'     '    ''       '-'   '-
-        ''')
+        ''' + Fore.WHITE )
     print("=" * 40)
     print("1 - INICIAR JOGO")
     print("2 - Créditos")
@@ -47,6 +63,7 @@ def Menu():
                 "[ T E C N O L O G I A ] (Nível de desenvolvimento tecnológico da cidade)\n"
                 "[ M E I O - A M B I E N T E ] (Qualidade do meio-ambiente)\n"
                 "\nSeu trabalho é garantir que nenhum dos 4 indicadores chegue ao máximo ou ao mínimo, mantendo a barra do indicador sempre entre 1% e 99%"
+                "\nCada escolha irá impactar diminuindo ou aumetando os indicadores e possuem desdobramentos narrativos diferentes."
                 )
             print("=" * 40 + "\n")
             input("\nPressione Enter para continuar...")
@@ -85,9 +102,9 @@ def barra(nome, valor):
     cheios = int(valor / 5)
     vazios = 20 - cheios
     if software:
-        return f"{nome:<14}: [" + "#" * cheios + "·" * vazios + f"] {valor}"
+        return f"{nome:<14}: [" + Fore.YELLOW + "#" * cheios + Fore.WHITE + "·" * vazios + f"] {valor}"
     else:
-        return f"{nome:<14}: [" + "#" * cheios + "·" * vazios + f"] "
+        return f"{nome:<14}: [" + Fore.YELLOW + "#" * cheios + Fore.WHITE + "·" * vazios + f"] "
 
 
 #função que introduz a interface do jogo
@@ -96,7 +113,7 @@ def mostrar_interface(pop, eco, meio, tec):
 
     #printa a nova rodada
     print("=" * 50)
-    print(" " * 15 + "I N D I C A D O R E S")
+    print(" " * 15 + Fore.YELLOW + "I N D I C A D O R E S" + Fore.WHITE)
     print("=" * 50)
 
     #barra de status
@@ -201,26 +218,26 @@ def evento1(stats):
 #mensagem de texto do evento
     print(
         'IMPLANTAR WI-FI PÚBLICO EM ÁREAS DE BAIXA RENDA\n'
-        'A secretaria de tecnologia propõe instalar Wi-Fi gratuito em regiões carentes.\n'
-        '\nEfeitos: (sim)\n'
-        'Tecnologia + \n'
-        'Economia - \n'
-        'População + \n'
+        'A secretaria de tecnologia propõe instalar Wi-Fi gratuito em regiões carentes. Deseja aprovar?\n'
+        '\nEfeitos: (sim)\n' +
+        Fore.GREEN + 'Tecnologia + \n' +
+        Fore.RED + 'Economia - \n' +
+        Fore.GREEN + 'População + \n' +
         
-        '\nEfeitos: (não)\n'
-        'População - \n'
-        'Tecnologia - \n'
+        Fore.WHITE +'\nEfeitos: (não)\n' +
+        Fore.RED + 'População - \n' +
+        Fore.RED +'Tecnologia - \n' + Fore.WHITE
           )
 
     #lógica de decisão dos eventos
-    decisao1 = input('\nDigite "s" ou "n": ').lower()
+    decisao1 = input('Digite "s" (sim) ou "n" (não): ').lower()
 
     eventos.remove(evento1) #remove o evento da lista de eventos possiveis
-
-    while decisao1 not in 'sn': #para casos de resposta inválida
+    
+    while decisao1 not in 'sn' or decisao1 == "": #para casos de resposta inválida
         print('Entrada inválida, tente outra vez\n')
         decisao1 = input('Digite s ou n:').lower()
-    
+
     #alterações nos indices com base na decisão
     if decisao1 == 's':
         tec += 10
@@ -238,9 +255,9 @@ def evento1(stats):
 def evento2(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'IMPLEMENTAR UM SISTEMA DE SEGURANÇA COM IA INTEGRADA\n'
-        'A secretaria de segurança pública propôe integrar a IA nos sistemas de câmera de segurança para fazer reconhecimento facial.\n'
+        'A secretaria de segurança pública propôe integrar a IA nos sistemas de câmera de segurança para fazer reconhecimento facial. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
@@ -251,9 +268,9 @@ def evento2(stats):
         'Tecnologia - \n'
           )
           
-    decisao2 = input('\nDigite "s" ou "n": ').lower()
+    decisao2 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento2)
-    while decisao2 not in 'sn':
+    while decisao2 not in 'sn' or decisao2 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao2 = input('Digite s ou n:').lower()
 
@@ -271,9 +288,9 @@ def evento2(stats):
 def evento3(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'SUBSTITUIR A FROTA DE ÔNIBUS\n'
-        'A secretaria de transporte propõe a substituição de toda a frota de ônibus por ônibus elétricos.\n'
+        'A secretaria de transporte propõe a substituição de toda a frota de ônibus por ônibus elétricos. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         'Economia - \n'
@@ -284,9 +301,9 @@ def evento3(stats):
         'Tecnologia -\n'
           )
           
-    decisao3 = input('\nDigite "s" ou "n": ').lower()
+    decisao3 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento3)
-    while decisao3 not in 'sn':
+    while decisao3 not in 'sn' or decisao3 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao3 = input('Digite s ou n:').lower()
     
@@ -304,9 +321,9 @@ def evento3(stats):
 def evento4(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'ACEITAR CRIPTOMOEDAS COMO FORMA DE PAGAMENTO DE IMPOSTOS\n'
-        'Empresas de tecnologia sugerem aceitar criptomoedas no pagamento de taxas públicas.\n'
+        'Empresas de tecnologia sugerem aceitar criptomoedas no pagamento de taxas públicas. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia - \n'
@@ -315,9 +332,9 @@ def evento4(stats):
         'Economia - \n'
           )
           
-    decisao4 = input('\nDigite "s" ou "n": ').lower()
+    decisao4 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento4)
-    while decisao4 not in 'sn':
+    while decisao4 not in 'sn' or decisao4 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao4 = input('Digite s ou n:').lower()
     
@@ -333,9 +350,9 @@ def evento4(stats):
 def evento5(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'CONSTRUIR UM SUPER COMPUTADOR.\n'
-        'A OPENAI deseja construir um super computador em Brasília.\n'
+        'A OPENAI deseja construir um super computador em Brasília. Deseja aprovar? \n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia + \n'
@@ -349,7 +366,7 @@ def evento5(stats):
           
     decisao5 = input('\nDigite "s" ou "n": ').lower()
     eventos.remove(evento5)
-    while decisao5 not in 'sn':
+    while decisao5 not in 'sn' or decisao5 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao5 = input('Digite s ou n:').lower()
     
@@ -369,9 +386,9 @@ def evento5(stats):
 def evento5A(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'SUPER AQUECIMENTO.\n'
-        'Devido à uma má gestão e o clima de Brasília o super computador da OPEN AI começou a apresentar problemas de super aquecimento. O secretário do meio-ambiente sugere retirar a instalação antes que cause maiores problemas.\n'
+        'Devido à uma má gestão e o clima de Brasília o super computador da OPEN AI começou a apresentar problemas de super aquecimento. O secretário do meio-ambiente sugere retirar a instalação antes que cause maiores problemas. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia - \n'
@@ -383,9 +400,9 @@ def evento5A(stats):
         'Meio-Ambiente - \n'
           )
           
-    decisao5A = input('\nDigite "s" ou "n": ').lower()
+    decisao5A = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento5A)
-    while decisao5A not in 'sn':
+    while decisao5A not in 'sn' or decisao5A == "":
         print('Entrada inválida, tente outra vez\n')
         decisao5A = input('Digite s ou n:').lower()
     
@@ -406,9 +423,9 @@ def evento5A(stats):
 def evento5B(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'SUPER COMPUTADOR EM CHAMAS.\n'
-        'Um incêndio se inicia nas instalações da OPEN AI, ameaçando bairros próximos. deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
+        'Um incêndio se inicia nas instalações da OPEN AI, ameaçando bairros próximos. Deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia - \n'
@@ -420,9 +437,9 @@ def evento5B(stats):
         'Meio-Ambiente - \n'
           )
           
-    decisao5B = input('\nDigite "s" ou "n": ').lower()
+    decisao5B = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento5B)
-    while decisao5B not in 'sn':
+    while decisao5B not in 'sn' or decisao5B == "":
         print('Entrada inválida, tente outra vez\n')
         decisao5B = input('Digite s ou n:').lower()
     
@@ -443,9 +460,9 @@ def evento5B(stats):
 def evento6(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'REDUÇÃO DE IMPOSTOS.\n'
-        'Empresários sugerem reduzir impostos para estimular novos investimentos.\n'
+        'Empresários sugerem reduzir impostos para estimular novos investimentos. Deseja reduzir os impostos?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia + \n'
@@ -455,9 +472,9 @@ def evento6(stats):
         'Tecnologia - \n'
           )
           
-    decisao6 = input('\nDigite "s" ou "n": ').lower()
+    decisao6 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento6)
-    while decisao6 not in 'sn':
+    while decisao6 not in 'sn' or decisao6 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao6 = input('Digite s ou n:').lower()
     
@@ -475,25 +492,26 @@ def evento6(stats):
 def evento7(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'VAZAMENTO DE DADOS.\n'
         'Um vazamento de dados expos dados de servidores públicos. Deseja investigar?\n'
         '\nEfeitos: (sim)\n'
-        'Nenhum\n'
+        'Economia -\n'
         
         '\nEfeitos: (não)\n'
         'População - \n'
           )
           
-    decisao7 = input('\nDigite "s" ou "n": ').lower()
+    decisao7 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
 
-    while decisao7 not in 'sn':
+    while decisao7 not in 'sn' or decisao7 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao7 = input('Digite s ou n:').lower()
     
     eventos.remove(evento7)
     if decisao7 == 's':
         eventos.append(evento7A)
+        eco -= 10
     elif decisao7 == 'n':
         pop -= 10
         eventos.append(evento7B)
@@ -503,7 +521,7 @@ def evento7(stats):
 def evento7A(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'INVESTIGAÇÃO DO VAZAMENTO DE DADOS.\n'
         'Os hackers culpados foram encontrados e presos. Deseja implementar um sistema de segurança melhor?\n'
         '\nEfeitos: (sim)\n'
@@ -514,9 +532,9 @@ def evento7A(stats):
         'Nenhum\n'
           )
           
-    decisao7A = input('\nDigite "s" ou "n": ').lower()
+    decisao7A = input('\nDigite "s" (sim) ou "n" (não): ').lower()
 
-    while decisao7A not in 'sn':
+    while decisao7A not in 'sn' or decisao7A == "":
         print('Entrada inválida, tente outra vez\n')
         decisao7A = input('Digite s ou n:').lower()
         
@@ -526,16 +544,16 @@ def evento7A(stats):
         tec += 20
         eco -= 15
     elif decisao7A == 'n':
-        eventos.append(evento7)
+        eventos.append(evento7final)
         
     return pop, eco, meio, tec
 
 def evento7B(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'GRUPO HACKER REINVINDICA AUTORIA.\n'
-        'Os hackers responsaveis pelo vazamento de dados exigem mais transparência do governo. Deseja dialogar com eles? \n'
+        'Os hackers responsaveis pelo vazamento de dados exigem mais transparência do governo. Deseja dialogar? \n'
         '\nEfeitos: (sim)\n'
         'Nenhum\n'
         
@@ -543,9 +561,9 @@ def evento7B(stats):
         'Nenhum\n'
           )
           
-    decisao7B = input('\nDigite "s" ou "n": ').lower()
+    decisao7B = input('\nDigite "s"(sim) ou "n" (não): ').lower()
 
-    while decisao7B not in 'sn':
+    while decisao7B not in 'sn' or decisao7B == "":
         print('Entrada inválida, tente outra vez\n')
         decisao7B = input('Digite s ou n:').lower()
     
@@ -561,9 +579,9 @@ def evento7B(stats):
 def evento7C(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'HACKERS PROPÕEM ACORDO DE PAZ.\n'
-        'O grupo hacker propõe cessar os ataques e ajudar em melhorias de segurança caso o governo aceite ter uma maior transpaência com as contas públicas. aceitar acordo?\n'
+        'O grupo hacker propõe cessar os ataques e ajudar em melhorias de segurança caso o governo aceite ter uma maior transpaência com as contas públicas. Aceitar acordo?\n'
         '\nEfeitos: (sim)\n'
         'Tecnologia + \n'
         
@@ -571,9 +589,9 @@ def evento7C(stats):
         'Tecnolgia - \n'
           )
           
-    decisao7C = input('\nDigite "s" ou "n": ').lower()
+    decisao7C = input('\nDigite "s" (sim) ou "n" (não): ').lower()
 
-    while decisao7C not in 'sn':
+    while decisao7C not in 'sn' or decisao7C == "":
         print('Entrada inválida, tente outra vez\n')
         decisao7C = input('Digite s ou n:').lower()
     
@@ -590,13 +608,22 @@ def evento7C(stats):
 def evento7final(stats):
     pop, eco, meio, tec = stats
 
-    input(
+    print(
         'CYBER ATAQUE EM MASSA.\n'
-        'TODOS os sistemas públicos caíram, Brasília está um caos!\n'
-        'Aperte Enter para continuar'
-          )
-    print('GAME OVER')
-    sys.exit()
+        'TODOS os sistemas públicos caíram, Brasília está um caos!')
+    print(Fore.GREEN +'''
+     _.--""--._
+    /  _    _  \ 
+ _  ( (_\  /_) )  _
+{ \._\   /\   /_./ }
+(_"=-.}______{.-="_) 
+ _  _.=("""")=._  _
+(_'"_.-"`~~`"-._"'_)
+ {_"            "_}
+    ''''G4ME 0VER' + Fore.WHITE
+    )
+    input('\nAperte Enter para continuar...')
+    Menu()
           
 
         
@@ -605,9 +632,9 @@ def evento7final(stats):
 def evento8(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'CORTES NO ORÇAMENTO.\n'
-        'A equipe de finanças sugere cortar parte do orçamento da saúde para cobrir dívidas.\n'
+        'A equipe de finanças sugere cortar parte do orçamento da saúde para cobrir dívidas. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'População - \n'
@@ -617,9 +644,9 @@ def evento8(stats):
         'Economia - \n'
           )
           
-    decisao8 = input('\nDigite "s" ou "n": ').lower()
+    decisao8 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento8)
-    while decisao8 not in 'sn':
+    while decisao8 not in 'sn' or decisao8 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao8 = input('Digite s ou n:').lower()
     
@@ -636,9 +663,9 @@ def evento8(stats):
 def evento8A(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'MANIFESTANTES LOTAM AS RUAS.\n'
-        'Após decisão de cortes de verba da saúde, manifestantes vão às ruas pedindo para revogar a decisão.\n'
+        'Após decisão de cortes de verba da saúde, manifestantes vão às ruas pedindo para revogar a decisão. Deseja revogar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
@@ -648,9 +675,9 @@ def evento8A(stats):
         'Economia + \n'
           )
           
-    decisao8A = input('\nDigite "s" ou "n": ').lower()
+    decisao8A = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento8A)
-    while decisao8A not in 'sn':
+    while decisao8A not in 'sn' or decisao8A == "":
         print('Entrada inválida, tente outra vez\n')
         decisao8A = input('Digite s ou n:').lower()
     
@@ -667,9 +694,9 @@ def evento8A(stats):
 def evento9(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'CRIAR UM POLO INDUSTRIAL NO GAMA.\n'
-        'Indústrias querem se instalar no Gama com incentivos especiais.\n'
+        'Indústrias querem se instalar no Gama com incentivos especiais. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Tecnologia + \n'
@@ -680,9 +707,9 @@ def evento9(stats):
         'Meio-Ambiente + \n'
           )
           
-    decisao9 = input('\nDigite "s" ou "n": ').lower()
+    decisao9 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento9)
-    while decisao9 not in 'sn':
+    while decisao9 not in 'sn' or decisao9 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao9 = input('Digite s ou n:').lower()
     
@@ -701,8 +728,8 @@ def evento9(stats):
 def evento10(stats):
     pop, eco, meio, tec = stats
 
-    print(
-        'APOIO A STARTUP DE TECNOLOGIA.\n'
+    print_event(
+        "LAZULES's TECH.\n"
         'Uma pequena empresa pede por incentivo do governo para desenvolver soluções para Brasília, você deseja apoiar?.\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
@@ -713,9 +740,9 @@ def evento10(stats):
         'Economia + \n'
           )
           
-    decisao10 = input('\nDigite "s" ou "n": ').lower()
+    decisao10 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento10)
-    while decisao10 not in 'sn':
+    while decisao10 not in 'sn' or decisao10 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao10 = input('Digite s ou n:').lower()
     
@@ -754,12 +781,12 @@ def evento10B(stats):
     print(
         "LAZULE'S TECH.\n"
         'Olá governador, você decidiu apoiar nosso projeto, queremos mostrar como a tecnologia pode solucionar todos os nossos problemas.\n'
-        'Nosso software detectou uma crise hídrica iminente, podemos resolver o problema antes que ele aconteça.\n'
+        'Nosso software detectou uma crise hídrica iminente, podemos resolver o problema antes que ele aconteça. Deseja investir?\n'
           )
     
-    decisao10B = input('\nDigite "s" ou "n": ').lower()
+    decisao10B = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento10B)
-    while decisao10B not in 'sn':
+    while decisao10B not in 'sn' or decisao10B == "":
         print('Entrada inválida, tente outra vez\n')
         decisao10 = input('Digite s ou n:').lower()
 
@@ -779,8 +806,8 @@ def evento11(stats):
     input(
         'SECA.\n'
         'Uma grande seca assola Brasília, as queimadas irão aumentar .\n'
-        'Efeitos:\n'
-        '(Por rodada) Meio-Ambiente -\n '
+        'Efeitos: (Por rodada)\n' +
+        Fore.RED +'Meio-Ambiente -\n '+ Fore.WHITE +
         '\nAperte Enter para continuar'
           )
     global seca
@@ -792,9 +819,9 @@ def evento11(stats):
 def evento12(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'TARIFA SOCIAL DE ENERGIA.\n'
-        'Os moradores pedem por descontos na conta de energia para famílias de baixa renda.\n'
+        'Os moradores pedem por descontos na conta de energia para famílias de baixa renda. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
@@ -804,9 +831,9 @@ def evento12(stats):
         'Economia + \n'
           )
           
-    decisao12 = input('\nDigite "s" ou "n": ').lower()
+    decisao12 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento12)
-    while decisao12 not in 'sn':
+    while decisao12 not in 'sn' or decisao12 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao12 = input('Digite s ou n:').lower()
     
@@ -823,9 +850,9 @@ def evento12(stats):
 def evento13(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'AUMENTO DA TARIFA DE ÔNIBUS.\n'
-        'A equipe de finanças sugere aumentar a tarifa do transporte público.\n'
+        'A equipe de finanças sugere aumentar a tarifa do transporte público. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'População - \n'
@@ -835,9 +862,9 @@ def evento13(stats):
         'Economia - \n'
           )
           
-    decisao13 = input('\nDigite "s" ou "n": ').lower()
+    decisao13 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
 
-    while decisao13 not in 'sn':
+    while decisao13 not in 'sn' or decisao13 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao13 = input('Digite s ou n:').lower()
     
@@ -855,9 +882,9 @@ def evento13(stats):
 def evento13A(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'MANIFESTAÇÃO CONTRA O AUMENTO DA TARIFA DE ÔNIBUS.\n'
-        'Manifestantes pressionam para revogar o aumento da tarifa.\n'
+        'Manifestantes pressionam para revogar o aumento da tarifa. Deseja revogar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'População + \n'
@@ -867,14 +894,13 @@ def evento13A(stats):
         'Economia + \n'
           )
           
-    decisao13A = input('\nDigite "s" ou "n": ').lower()
-    eventos.remove(evento13)
-    while decisao13A not in 'sn':
+    decisao13A = input('\nDigite "s"(sim) ou "n" (não): ').lower()
+    while decisao13A not in 'sn' or decisao13A == "":
         print('Entrada inválida, tente outra vez\n')
         decisao13A = input('Digite s ou n:').lower()
     
     if decisao13A == 's':
-        eco -= 30
+        eco -= 25
         pop += 10
         eventos.remove(evento13A)
     elif decisao13A == 'n':
@@ -886,9 +912,9 @@ def evento13A(stats):
 def evento14(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'INSTALAÇÃO DE ENERGIA SOLAR.\n'
-        'Uma empresa europeia oferece instalar uma usina de energia solar no DF com investimento misto público/privado.\n'
+        'Uma empresa europeia oferece instalar uma usina de energia solar no DF com investimento misto público/privado. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
@@ -898,9 +924,9 @@ def evento14(stats):
         'Economia + \n'
           )
           
-    decisao14 = input('\nDigite "s" ou "n": ').lower()
+    decisao14 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
 
-    while decisao14 not in 'sn':
+    while decisao14 not in 'sn' or decisao14 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao14 = input('Digite s ou n:').lower()
     
@@ -920,8 +946,8 @@ def evento15(stats):
     input(
         'CRISE HÍDRICA.\n'
         'O reservatório da Barragem do Rio Descoberto atinge nível historicamente baixo! Teremos que fazer racionamento.\n'
-        'Efeitos:\n'
-        '(Por rodada) População -\n'
+        'Efeitos: (Por rodada) \n' +
+        Fore.RED + 'População -\n' + Fore.WHITE +
         '\nAperte Enter para continuar'
           )
     global crise_hidro
@@ -933,9 +959,9 @@ def evento15(stats):
 def evento16(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'PROJETO BRASÍLIA VERDE.\n'
-        'Após meses de políticas ambientais, você recebe uma proposta da UnB para reflorestar áreas degradadas do DF com participação comunitária.\n'
+        'Após meses de políticas ambientais, você recebe uma proposta da UnB para reflorestar áreas degradadas do DF com participação comunitária. Deseja aprovar? \n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
@@ -946,9 +972,9 @@ def evento16(stats):
         'Economia +\n'
           )
           
-    decisao16 = input('\nDigite "s" ou "n": ').lower()
+    decisao16 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento16)
-    while decisao16 not in 'sn':
+    while decisao16 not in 'sn' or decisao16 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao16 = input('Digite s ou n:').lower()
     
@@ -966,9 +992,9 @@ def evento16(stats):
 def evento17(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'INCÊNDIO NO PARQUE NACIONAL.\n'
-        'Um incêndio toma conta do Parque Nacional de Brasília, ameaçando áreas protegidas e bairros próximos. deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
+        'Um incêndio toma conta do Parque Nacional de Brasília, ameaçando áreas protegidas e bairros próximos. Deseja enviar grande parte do orçamento emergencial para combate ao incêndio?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Meio-Ambiente + \n'
@@ -981,9 +1007,9 @@ def evento17(stats):
           )
           
     
-    decisao17 = input('\nDigite "s" ou "n": ').lower()
+    decisao17 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento17)
-    while decisao17 not in 'sn':
+    while decisao17 not in 'sn' or decisao17 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao17 = input('Digite s ou n:').lower()
     
@@ -1002,9 +1028,9 @@ def evento17(stats):
 def evento18(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'DRONES DE ENTREGA.\n'
-        'A Amazon quer instalar um sistema de entrega mais veloz utilizando drones.\n'
+        'A Amazon quer instalar um sistema de entrega mais veloz utilizando drones Deseja aprovar?.\n'
         '\nEfeitos: (sim)\n'
         'Economia + \n'
         'Meio-Ambiente - \n'
@@ -1016,9 +1042,9 @@ def evento18(stats):
         'População - \n'
           )
           
-    decisao18 = input('\nDigite "s" ou "n": ').lower()
+    decisao18 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento18)
-    while decisao18 not in 'sn':
+    while decisao18 not in 'sn' or decisao18 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao18 = input('Digite s ou n:').lower()
     
@@ -1037,9 +1063,9 @@ def evento18(stats):
 def evento19(stats):
     pop, eco, meio, tec = stats
 
-    print(
+    print_event(
         'MODERNIZAÇÃO DO ENSINO.\n'
-        'A secretaria de educação propõe implementar computadores em todas as escolas da rede pública.\n'
+        'A secretaria de educação propõe implementar computadores em todas as escolas da rede pública. Deseja aprovar?\n'
         '\nEfeitos: (sim)\n'
         'Economia - \n'
         'Tecnologia + \n'
@@ -1051,9 +1077,9 @@ def evento19(stats):
         'População - \n'
           )
           
-    decisao19 = input('\nDigite "s" ou "n": ').lower()
+    decisao19 = input('\nDigite "s" (sim) ou "n" (não): ').lower()
     eventos.remove(evento19)
-    while decisao19 not in 'sn':
+    while decisao19 not in 'sn' or decisao19 == "":
         print('Entrada inválida, tente outra vez\n')
         decisao19 = input('Digite s ou n:').lower()
     
@@ -1133,18 +1159,18 @@ def rodada():
             print('''
                        ___
                      .' _ '.
-                    / /` `\ \
+                    / /` `\ \ 
                     | |   [__]
                     | |    {{
                     | |    }}
                  _  | |  _ {{
-     ___________<_>_| |_<_>}}________
-         .=======^=(___)=^={{====.
-        / .----------------}}---. \
-       / /                 {{    \ \
-      / /                  }}     \ \
-     (  '========================='  )
-      '-----------------------------'
+     ___________<_>_| |_<_>}}____
+         .=======^=(___)=^=====.
+        / .-------------------. \ 
+       / /                     \ \ 
+      / /                       \ \ 
+     (  '======================='  )
+      '---------------------------'
                 ''' )
             input()
 
@@ -1158,8 +1184,18 @@ def rodada():
         
         #checa se a lista de eventos está vazia antes de escolher um evento aleatório
         if len(eventos) == 0:
-            input('Parabéns você sobreviveu ao mandato!\n'
+            print('Parabéns você sobreviveu ao mandato!\n'
             '\nAperte Enter para voltar ao Menu...')
+            input('''
+                        .|
+                       | |
+                       |'|            
+               ___    |  |           
+       _    .-'   '-. |  |     .--'| 
+    .-'|  _.|  |    ||   '-__  |   |  
+    |' | |.    |    ||       | |   | 
+ ___|  '-'     '    ''       '-'   '-
+        ''')
             break
 
         else:
@@ -1178,8 +1214,6 @@ def rodada():
             tempo_hidro += 1
     
     Menu()
-
-        
 
 #introdução do jogo
 Menu()
