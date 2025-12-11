@@ -256,6 +256,12 @@ O jogo inclui arte ASCII para:
 4. **Software Lazule's Tech:** Útil para decisões mais precisas
 5. **Leia os efeitos:** Sempre analise consequências antes de decidir
 
+## Como rodar o jogo
+
+Baixe os arquivos:
+1. apply_color_to_events.py
+2. logica_brasilia.py
+
 ## Créditos
 
 Desenvolvido por:
